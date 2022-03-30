@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2022 SAP SE or an SAP affiliate company and Gardener contributors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v2
+appVersion: "1.0"
+description: A Helm chart for exposing the openid configuration of a Kubernetes cluster.
+name: service-account-issuer-discovery
+version: 0.1.0

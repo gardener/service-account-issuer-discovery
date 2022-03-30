@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2022 SAP SE or an SAP affiliate company and Gardener contributors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+replicaCount: 2
+
+image:
+  repository: eu.gcr.io/gardener-project/gardener/service-account-issuer-discovery
+  tag: latest
+  pullPolicy: IfNotPresent
+
+kubeconfig:
+
+automountServiceAccountToken: false
+
+serviceAccountTokenVolumeProjection:
+  enabled: false
+  expirationSeconds: 3600
+  audience: ""
+
+# Possible values are ClusterIP and LoadBalancer. If value is LoadBalancer then tlsConfig is required.
+serviceType: ClusterIP
+
+# This value is required. Should match the hostname of the issuer of the cluster.
+hostname: ""
+
+gardenerManagedDNS:
+  enabled: false
+
+# If gardenerManagedDNS.enabled is set to true then tlsConfig is ignored.
+tlsConfig:
+  enabled: false
+  crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    ...
+    -----END RSA PRIVATE KEY-----
+
+autoscaling:
+  hpa:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 4
+    cpuTargetAverageUtilization: 80
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    cpu: 200m
+    memory: 64Mi
