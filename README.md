@@ -34,3 +34,4 @@ This template repository can be used to seed new git repositories in the gardene
   - grant admin permission to the maintainers team of the new repository defined in CODEOWNERS
 
 ## UNDER CONSTRUCTION
+
