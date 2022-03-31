@@ -61,7 +61,7 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         {{- if or ( or .Values.gardenerManagedDNS.enabled ( eq .Values.serviceType "LoadBalancer" ) ) .Values.tlsConfig.enabled }}
         volumeMounts:
-        {{- else if or .Values.kubeconfig .Values.serviceAccountTokenVolumeProjection.enabled }}
+        {{- else if or ( or .Values.kubeconfig .Values.serviceAccountTokenVolumeProjection.enabled ) .Values.automountKubeRootCa }}
         volumeMounts:
         {{- end }}
         {{- if or ( or .Values.gardenerManagedDNS.enabled ( eq .Values.serviceType "LoadBalancer" ) ) .Values.tlsConfig.enabled }}
@@ -79,9 +79,14 @@ spec:
           mountPath: /var/run/issuer-discovery/serviceaccount
           readOnly: true
         {{- end }}
+        {{- if .Values.automountKubeRootCA }}
+        - name: kube-root-ca
+          mountPath: /var/run/issuer-discovery/kube-root-ca
+          readOnly: true
+        {{- end }}
       {{- if or ( or .Values.gardenerManagedDNS.enabled ( eq .Values.serviceType "LoadBalancer" ) ) .Values.tlsConfig.enabled }}
       volumes:
-      {{- else if or .Values.kubeconfig .Values.serviceAccountTokenVolumeProjection.enabled }}
+      {{- else if or ( or .Values.kubeconfig .Values.serviceAccountTokenVolumeProjection.enabled ) .Values.automountKubeRootCA }}
       volumes:
       {{- end }}
       {{- if or ( or .Values.gardenerManagedDNS.enabled ( eq .Values.serviceType "LoadBalancer" ) ) .Values.tlsConfig.enabled }}
@@ -110,4 +115,11 @@ spec:
               {{- if .Values.serviceAccountTokenVolumeProjection.audience }}
               audience: {{ .Values.serviceAccountTokenVolumeProjection.audience }}
               {{- end }}
+      {{- end }}
+      {{- if .Values.automountKubeRootCA }}
+      - name: kube-root-ca
+        projected:
+          sources:
+          - configMap:
+              name: kube-root-ca.crt
       {{- end }}
