@@ -10,12 +10,12 @@ helm-lint:
 	@$(HELM) lint $(HELM_CHART_DIR)
 
 .PHONY: check
-check: 
+check:
 	@go vet ./...
 	@go fmt ./...
 
 .PHONY: test
-test: 
+test:
 	@go test -cover ./...
 
 .PHONY: verify
