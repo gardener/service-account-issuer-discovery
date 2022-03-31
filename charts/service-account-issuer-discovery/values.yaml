@@ -13,6 +13,9 @@ kubeconfig:
 
 automountServiceAccountToken: false
 
+# If this is set to true then kube-root-ca will be projected in the container at path "/var/run/issuer-discovery/kube-root-ca/ca.crt"
+automountKubeRootCA: false
+
 serviceAccountTokenVolumeProjection:
   enabled: false
   expirationSeconds: 3600
