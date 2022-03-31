@@ -8,3 +8,15 @@ HELM_CHART_DIR    ?= charts/service-account-issuer-discovery
 .PHONY: helm-lint
 helm-lint:
 	@$(HELM) lint $(HELM_CHART_DIR)
+
+.PHONY: check
+check: 
+	@go vet ./...
+	@go fmt ./...
+
+.PHONY: test
+test: 
+	@go test -cover ./...
+
+.PHONY: verify
+verify: check test
