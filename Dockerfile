@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM golang:1.17.8 AS builder
+FROM golang:1.18.4 AS builder
 
 WORKDIR /workspace
 COPY go.mod go.mod
