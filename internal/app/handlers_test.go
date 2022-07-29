@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package app
+package app_test
 
 import (
 	"testing"
+
+	"github.com/gardener/service-account-issuer-discovery/internal/app"
 
 	"k8s.io/client-go/rest"
 	"k8s.io/utils/pointer"
@@ -14,22 +16,22 @@ import (
 func TestInvalidHandlerConfigs(t *testing.T) {
 	tests := []struct {
 		name          string
-		config        *HandlersConfig
+		config        *app.HandlersConfig
 		expectedError string
 	}{
 		{
 			name:          "hostname is nil",
-			config:        &HandlersConfig{},
+			config:        &app.HandlersConfig{},
 			expectedError: "hostname should not be empty",
 		},
 		{
 			name:          "hostname is empty string",
-			config:        &HandlersConfig{},
+			config:        &app.HandlersConfig{},
 			expectedError: "hostname should not be empty",
 		},
 		{
 			name: "refresh interval is greated than single cached object ttl",
-			config: &HandlersConfig{
+			config: &app.HandlersConfig{
 				Hostname:                      pointer.String("test"),
 				RESTConfig:                    &rest.Config{},
 				CacheRefreshIntervalInSeconds: pointer.Int64(4),
@@ -41,7 +43,7 @@ func TestInvalidHandlerConfigs(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			h, err := NewHandlersSet(tt.config)
+			h, err := app.NewHandlersSet(tt.config)
 			if h != nil {
 				t.Errorf("Expected not to return handler but got: %v", h)
 			}

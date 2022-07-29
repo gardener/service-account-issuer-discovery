@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package app
+package cache
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-type cache struct {
+type Cache struct {
 	stop chan bool
 
 	mutex           sync.RWMutex
@@ -30,12 +30,12 @@ type Cacher interface {
 	StopRefresh()
 }
 
-func NewCacher(refreshInterval time.Duration, cachedObjectTTL int64) (Cacher, error) {
+func NewCache(refreshInterval time.Duration, cachedObjectTTL int64) (*Cache, error) {
 	refreshIntervalInSeconds := int64(refreshInterval.Seconds())
 	if refreshIntervalInSeconds > cachedObjectTTL {
 		return nil, fmt.Errorf("the refresh interval of %v seconds should not be greater than the cached object validity duration seconds", refreshIntervalInSeconds)
 	}
-	dc := &cache{
+	dc := &Cache{
 		stop:            make(chan bool),
 		cache:           make(map[string]cachedObject),
 		cachedObjectTTL: cachedObjectTTL,
@@ -50,7 +50,7 @@ func NewCacher(refreshInterval time.Duration, cachedObjectTTL int64) (Cacher, er
 	return dc, nil
 }
 
-func (dc *cache) refreshLoop(refreshInterval time.Duration) {
+func (dc *Cache) refreshLoop(refreshInterval time.Duration) {
 	ticker := time.NewTicker(refreshInterval)
 	defer ticker.Stop()
 
@@ -72,7 +72,7 @@ func (dc *cache) refreshLoop(refreshInterval time.Duration) {
 	}
 }
 
-func (dc *cache) Get(key string) []byte {
+func (dc *Cache) Get(key string) []byte {
 	dc.mutex.RLock()
 	defer dc.mutex.RUnlock()
 	if v, ok := dc.cache[key]; ok {
@@ -82,7 +82,7 @@ func (dc *cache) Get(key string) []byte {
 	return nil
 }
 
-func (dc *cache) Update(key string, bytes []byte) {
+func (dc *Cache) Update(key string, bytes []byte) {
 	dc.mutex.Lock()
 	defer dc.mutex.Unlock()
 	dc.cache[key] = cachedObject{
@@ -91,7 +91,7 @@ func (dc *cache) Update(key string, bytes []byte) {
 	}
 }
 
-func (dc *cache) StopRefresh() {
+func (dc *Cache) StopRefresh() {
 	dc.stop <- true
 	close(dc.stop)
 	dc.wg.Wait()
