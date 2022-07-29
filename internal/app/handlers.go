@@ -13,6 +13,8 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/gardener/service-account-issuer-discovery/pkg/cache"
+
 	"golang.org/x/sync/singleflight"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -29,7 +31,7 @@ type handlersSet struct {
 	hostname     string
 	clientset    *kubernetes.Clientset
 	logger       *log.Logger
-	cacher       Cacher
+	cacher       cache.Cacher
 	requestGroup singleflight.Group
 }
 
@@ -74,7 +76,7 @@ func NewHandlersSet(config *HandlersConfig) (ServiceAccountDiscoveryHandler, err
 		cacheTTL = *config.CachedObjectValidityInSeconds
 	}
 
-	cacher, err := NewCacher(cacheRefresh, cacheTTL)
+	cache, err := cache.NewCache(cacheRefresh, cacheTTL)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +85,7 @@ func NewHandlersSet(config *HandlersConfig) (ServiceAccountDiscoveryHandler, err
 		hostname:  *config.Hostname,
 		clientset: clientset,
 		logger:    log.Default(),
-		cacher:    cacher,
+		cacher:    cache,
 	}, nil
 }
 

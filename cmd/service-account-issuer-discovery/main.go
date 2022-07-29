@@ -14,7 +14,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/gardener/service-account-issuer-discovery/app"
+	"github.com/gardener/service-account-issuer-discovery/internal/app"
 
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
@@ -111,10 +111,6 @@ func getRESTConfig() (*rest.Config, error) {
 
 	if len(kubeconfigFilePath) != 0 {
 		kubeconfigBytes, err := ioutil.ReadFile(kubeconfigFilePath)
-		if err != nil {
-			return nil, err
-		}
-
 		if err != nil {
 			return nil, err
 		}

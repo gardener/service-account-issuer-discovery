@@ -2,15 +2,17 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package app
+package cache_test
 
 import (
 	"testing"
 	"time"
+
+	"github.com/gardener/service-account-issuer-discovery/pkg/cache"
 )
 
 func TestEmptyCache(t *testing.T) {
-	c, err := NewCacher(time.Second*2, 2)
+	c, err := cache.NewCache(time.Second*2, 2)
 	if err != nil {
 		t.Errorf("Got unexpected error: %v", err)
 	}
@@ -22,7 +24,7 @@ func TestEmptyCache(t *testing.T) {
 
 func TestRetrieveFromCache(t *testing.T) {
 	expected := "hello"
-	c, err := NewCacher(time.Second*2, 2)
+	c, err := cache.NewCache(time.Second*2, 2)
 	if err != nil {
 		t.Errorf("Got unexpected error: %v", err)
 	}
@@ -36,7 +38,7 @@ func TestRetrieveFromCache(t *testing.T) {
 
 func TestRetrieveFromCacheMultipleObjects(t *testing.T) {
 	expected := "hello"
-	c, err := NewCacher(time.Second*2, 2)
+	c, err := cache.NewCache(time.Second*2, 2)
 	if err != nil {
 		t.Errorf("Got unexpected error: %v", err)
 	}
@@ -50,7 +52,7 @@ func TestRetrieveFromCacheMultipleObjects(t *testing.T) {
 }
 
 func TestExpiredResultCache(t *testing.T) {
-	c, err := NewCacher(time.Second*2, 2)
+	c, err := cache.NewCache(time.Second*2, 2)
 	if err != nil {
 		t.Errorf("Got unexpected error: %v", err)
 	}
@@ -65,7 +67,7 @@ func TestExpiredResultCache(t *testing.T) {
 
 func TestStopRefreshingCache(t *testing.T) {
 	expected := "hello"
-	c, err := NewCacher(time.Second*2, 2)
+	c, err := cache.NewCache(time.Second*2, 2)
 	if err != nil {
 		t.Errorf("Got unexpected error: %v", err)
 	}
@@ -81,7 +83,7 @@ func TestStopRefreshingCache(t *testing.T) {
 
 func TestInvalidCacheConfig(t *testing.T) {
 	expectedError := "the refresh interval of 3 seconds should not be greater than the cached object validity duration seconds"
-	c, err := NewCacher(time.Second*3, 2)
+	c, err := cache.NewCache(time.Second*3, 2)
 	if c != nil {
 		t.Errorf("Expected not to return cacher but got: %v", c)
 	}

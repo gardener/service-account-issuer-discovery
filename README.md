@@ -10,11 +10,11 @@ Work in progress... Partial documentation ahead.
 
 To run the server with minimal configuration export the `KUBECONFIG` environment variable and run:
 ``` 
-go run main.go --hostname=<issuer-of-cluster>
+go run ./cmd/service-account-issuer-discovery/main.go --hostname=<issuer-of-cluster>
 ```
 Or pass the `kubeconfig` as a flag:
 ``` 
-go run main.go --kubeconfig=<path-to-my-kubeconfig> --hostname=<issuer-of-cluster>
+go run ./cmd/service-account-issuer-discovery/main.go --kubeconfig=<path-to-my-kubeconfig> --hostname=<issuer-of-cluster>
 ```
 
 Retrieve the `well-known` document by querying `/.well-known/openid-configuration`.

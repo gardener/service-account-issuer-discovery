@@ -12,11 +12,12 @@ COPY go.sum go.sum
 RUN go mod download
 
 # Copy the go source
-COPY main.go main.go
-COPY app/ app/
+COPY cmd/ cmd/
+COPY pkg/ pkg/
+COPY internal/ internal/
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o service-account-issuer-discovery main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o service-account-issuer-discovery cmd/service-account-issuer-discovery/main.go
 
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
