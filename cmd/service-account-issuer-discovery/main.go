@@ -6,6 +6,7 @@ package main
 
 import (
 	"crypto/tls"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -15,12 +16,14 @@ import (
 	"time"
 
 	"github.com/gardener/service-account-issuer-discovery/internal/app"
+	"github.com/gardener/service-account-issuer-discovery/internal/version"
 
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 )
 
 var (
+	showVersion          = flag.Bool("version", false, "Print the server version information.")
 	kubeconfig           = flag.String("kubeconfig", "", "Path to the kubeconfig file. If not specified in cluster kubeconfig will be used.")
 	hostname             = flag.String("hostname", "", "Hostname to serve the public keys on.")
 	certFile             = flag.String("cert-file", "", "Path to certificate file.")
@@ -32,6 +35,20 @@ var (
 
 func main() {
 	flag.Parse()
+
+	if *showVersion {
+		info, err := version.BuildInfo()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		jsonInfo, err := json.Marshal(info)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(string(jsonInfo))
+		os.Exit(0)
+	}
 
 	restConfig, err := getRESTConfig()
 	if err != nil {
