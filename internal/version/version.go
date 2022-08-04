@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP SE or an SAP affiliate company and Gardener contributors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package version
 
 import (
@@ -6,13 +10,13 @@ import (
 )
 
 var (
-	Version string
+	version string
 )
 
 type VCSInfo struct {
 	VCS          string
 	Revision     string
-	Date         string
+	Time         string
 	TreeModified string
 }
 
@@ -24,13 +28,13 @@ type Info struct {
 	Platform  string
 }
 
-func GetBuildInfo() (*Info, error) {
+func BuildInfo() (*Info, error) {
 	info, ok := debug.ReadBuildInfo()
 	if !ok {
 		return nil, errors.New("version: Error in ReadBuildInfo")
 	}
 	result := &Info{
-		Version:   Version,
+		Version:   version,
 		GoVersion: info.GoVersion,
 	}
 
@@ -47,7 +51,7 @@ func GetBuildInfo() (*Info, error) {
 		case "vcs.revision":
 			result.VCSInfo.Revision = setting.Value
 		case "vcs.time":
-			result.VCSInfo.Date = setting.Value
+			result.VCSInfo.Time = setting.Value
 		case "vcs.modified":
 			result.VCSInfo.TreeModified = setting.Value
 		}

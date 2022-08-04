@@ -23,7 +23,7 @@ import (
 )
 
 var (
-	buildInfo            = flag.Bool("version", false, "Build information for the currently running binary")
+	showVersion          = flag.Bool("version", false, "Print the server version information.")
 	kubeconfig           = flag.String("kubeconfig", "", "Path to the kubeconfig file. If not specified in cluster kubeconfig will be used.")
 	hostname             = flag.String("hostname", "", "Hostname to serve the public keys on.")
 	certFile             = flag.String("cert-file", "", "Path to certificate file.")
@@ -36,8 +36,8 @@ var (
 func main() {
 	flag.Parse()
 
-	if *buildInfo {
-		info, err := version.GetBuildInfo()
+	if *showVersion {
+		info, err := version.BuildInfo()
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -46,8 +46,8 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("%s\n", jsonInfo)
-		return
+		fmt.Println(string(jsonInfo))
+		os.Exit(0)
 	}
 
 	restConfig, err := getRESTConfig()
