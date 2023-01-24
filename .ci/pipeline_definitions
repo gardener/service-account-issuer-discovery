@@ -10,6 +10,10 @@ service-account-issuer-discovery:
       version:
         preprocess: inject-commit-hash
       publish:
+        oci-builder: docker-buildx
+        platforms:
+        - linux/amd64
+        - linux/arm64
         dockerimages:
           service-account-issuer-discovery:
             registry: 'gcr-readwrite'
