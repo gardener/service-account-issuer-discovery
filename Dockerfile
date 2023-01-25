@@ -9,8 +9,9 @@ COPY . .
 RUN go mod download
 
 # Build
+ARG TARGETARCH
 WORKDIR /workspace/cmd/service-account-issuer-discovery
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -ldflags="$(/workspace/hack/get-build.sh)" -o /workspace/service-account-issuer-discovery
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARCH GO111MODULE=on go build -a -ldflags="$(/workspace/hack/get-build.sh)" -o /workspace/service-account-issuer-discovery
 
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
