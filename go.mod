@@ -1,6 +1,6 @@
 module github.com/gardener/service-account-issuer-discovery
 
-go 1.19
+go 1.20
 
 require (
 	golang.org/x/sync v0.1.0
