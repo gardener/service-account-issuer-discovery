@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -127,7 +126,7 @@ func getRESTConfig() (*rest.Config, error) {
 	}
 
 	if len(kubeconfigFilePath) != 0 {
-		kubeconfigBytes, err := ioutil.ReadFile(kubeconfigFilePath)
+		kubeconfigBytes, err := os.ReadFile(kubeconfigFilePath)
 		if err != nil {
 			return nil, err
 		}
