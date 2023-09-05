@@ -23,7 +23,7 @@ service-account-issuer-discovery:
             tag_as_latest: false
     steps:
       verify:
-        image: 'golang:1.20.4'
+        image: 'golang:1.21.0'
   jobs:
     head-update:
       traits:
