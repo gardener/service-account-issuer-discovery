@@ -5,7 +5,7 @@
 replicaCount: 2
 
 image:
-  repository: eu.gcr.io/gardener-project/gardener/service-account-issuer-discovery
+  repository: europe-docker.pkg.dev/gardener-project/public/gardener/service-account-issuer-discovery
   tag: latest
   pullPolicy: IfNotPresent
 
