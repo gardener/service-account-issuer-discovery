@@ -1,6 +1,5 @@
 # Service Account Issuer Discovery
-
-[![reuse compliant](https://reuse.software/badge/reuse-compliant.svg)](https://reuse.software/)
+[![REUSE status](https://api.reuse.software/badge/github.com/gardener/service-account-issuer-discovery)](https://api.reuse.software/info/github.com/gardener/service-account-issuer-discovery)
 
 A simple server that allows exposing the OpenID discovery documents of a Kubernetes cluster.
 
