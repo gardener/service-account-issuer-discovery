@@ -3,6 +3,17 @@
 # SPDX-License-Identifier: Apache-2.0
 
 service-account-issuer-discovery:
+  templates: 
+    helmcharts:
+    - &service-account-issuer-discovery
+      name: service-account-issuer-discovery
+      dir: charts/service-account-issuer-discovery
+      registry: europe-docker.pkg.dev/gardener-project/snapshots/charts/gardener
+      mappings:
+      - ref: ocm-resource:service-account-issuer-discovery.repository
+        attribute: image.repository
+      - ref: ocm-resource:service-account-issuer-discovery.tag
+        attribute: image.tag
   base_definition:
     traits:
       version:
@@ -24,7 +35,7 @@ service-account-issuer-discovery:
             tag_as_latest: false
     steps:
       verify:
-        image: 'golang:1.23.0'
+        image: 'golang:1.23.2'
   jobs:
     head-update:
       traits:
@@ -33,9 +44,14 @@ service-account-issuer-discovery:
           dockerimages:
             service-account-issuer-discovery:
               tag_as_latest: true
+          helmcharts:
+          - *service-account-issuer-discovery
     pull-request:
       traits:
         pull-request: ~
+        publish:
+          helmcharts:
+          - *service-account-issuer-discovery
     release:
       traits:
         version:
@@ -48,3 +64,6 @@ service-account-issuer-discovery:
           dockerimages:
             service-account-issuer-discovery:
               image: europe-docker.pkg.dev/gardener-project/releases/gardener/service-account-issuer-discovery
+          helmcharts:
+          - <<: *service-account-issuer-discovery
+            registry: europe-docker.pkg.dev/gardener-project/releases/charts/gardener
