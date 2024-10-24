@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{{- if .Values.resilience.pdb.enabled }}
+{{- if gt (int .Values.replicaCount) 1 }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
@@ -14,6 +14,9 @@ spec:
 {{- end }}
 {{- if not (kindIs "invalid" .Values.resilience.pdb.minAvailable) }}
     minAvailable: {{ toYaml .Values.resilience.pdb.minAvailable }}
+{{- end }}
+{{- if .Values.resilience.pdb.unhealthyPodEvictionPolicy }}
+    unhealthyPodEvictionPolicy: {{ .Values.resilience.pdb.unhealthyPodEvictionPolicy | quote }}
 {{- end }}
     selector:
       matchLabels:

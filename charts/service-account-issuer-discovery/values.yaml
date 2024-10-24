@@ -51,9 +51,9 @@ autoscaling:
 
 resilience:
   pdb:
-    enabled: false
     maxUnavailable: 1
     # minAvailable: "50%"
+    unhealthyPodEvictionPolicy: AlwaysAllow
 
 resources:
   requests:
