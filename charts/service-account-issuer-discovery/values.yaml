@@ -49,6 +49,12 @@ autoscaling:
     maxReplicas: 4
     cpuTargetAverageUtilization: 80
 
+resilience:
+  pdb:
+    enabled: false
+    maxUnavailable: 1
+    # minAvailable: "50%"
+
 resources:
   requests:
     cpu: 50m

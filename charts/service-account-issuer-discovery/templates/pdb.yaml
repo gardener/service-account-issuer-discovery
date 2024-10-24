@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2024 SAP SE or an SAP affiliate company and Gardener contributors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+{{- if .Values.resilience.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "name" . | quote }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+{{- if not (kindIs "invalid" .Values.resilience.pdb.maxUnavailable) }}
+    maxUnavailable: {{ toYaml .Values.resilience.pdb.maxUnavailable }}
+{{- end }}
+{{- if not (kindIs "invalid" .Values.resilience.pdb.minAvailable) }}
+    minAvailable: {{ toYaml .Values.resilience.pdb.minAvailable }}
+{{- end }}
+    selector:
+      matchLabels:
+          app.kubernetes.io/name: {{ include "name" . | quote }}
+{{- end }}
