@@ -24,6 +24,17 @@ serviceAccountTokenVolumeProjection:
 # Possible values are ClusterIP and LoadBalancer. If value is LoadBalancer then tlsConfig is required.
 serviceType: ClusterIP
 
+#ingress should be configure alon with serviceType ClusterIP. For serviceType LoadBalancer ingress should be set to enabled: false.
+
+ingress:
+  enabled: true
+# Host value for sa-discovery ingress
+  hostname: 
+  annotations:
+    cert.gardener.cloud/purpose: managed
+    dns.gardener.cloud/dnsnames: all
+
+
 # This value is required. Should match the hostname of the issuer of the cluster.
 hostname: ""
 
