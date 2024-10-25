@@ -9,6 +9,8 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+imagePullSecrets: []
+
 kubeconfig:
 
 automountServiceAccountToken: false
@@ -48,6 +50,9 @@ autoscaling:
     minReplicas: 2
     maxReplicas: 4
     cpuTargetAverageUtilization: 80
+
+priorityClassName: ""
+topologySpreadConstraints: []
 
 resources:
   requests:
