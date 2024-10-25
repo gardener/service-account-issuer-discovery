@@ -49,12 +49,6 @@ autoscaling:
     maxReplicas: 4
     cpuTargetAverageUtilization: 80
 
-resilience:
-  pdb:
-    maxUnavailable: 1
-    # minAvailable: "50%"
-    unhealthyPodEvictionPolicy: AlwaysAllow
-
 resources:
   requests:
     cpu: 50m

@@ -6,19 +6,19 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ include "name" . | quote }}
-  namespace: {{ .Release.Namespace | quote }}
+    name: {{ include "name" . }}
+    namespace: {{ .Release.Namespace }}
+labels:
+    app.kubernetes.io/name: {{ include "name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-{{- if not (kindIs "invalid" .Values.resilience.pdb.maxUnavailable) }}
-    maxUnavailable: {{ toYaml .Values.resilience.pdb.maxUnavailable }}
-{{- end }}
-{{- if not (kindIs "invalid" .Values.resilience.pdb.minAvailable) }}
-    minAvailable: {{ toYaml .Values.resilience.pdb.minAvailable }}
-{{- end }}
-{{- if .Values.resilience.pdb.unhealthyPodEvictionPolicy }}
-    unhealthyPodEvictionPolicy: {{ .Values.resilience.pdb.unhealthyPodEvictionPolicy | quote }}
+    maxUnavailable: 1
+{{- if semverCompare ">= 1.26-0" .Capabilities.KubeVersion.Version }}
+    unhealthyPodEvictionPolicy: AlwaysAllow
 {{- end }}
     selector:
-      matchLabels:
-          app.kubernetes.io/name: {{ include "name" . | quote }}
+        matchLabels:
+            app.kubernetes.io/name: {{ include "name" . }}
+            app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
