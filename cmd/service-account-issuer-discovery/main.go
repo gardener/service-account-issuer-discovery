@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/gardener/service-account-issuer-discovery/internal/app"
@@ -126,7 +127,7 @@ func getRESTConfig() (*rest.Config, error) {
 	}
 
 	if len(kubeconfigFilePath) != 0 {
-		kubeconfigBytes, err := os.ReadFile(kubeconfigFilePath)
+		kubeconfigBytes, err := os.ReadFile(filepath.Clean(kubeconfigFilePath))
 		if err != nil {
 			return nil, err
 		}
