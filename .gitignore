@@ -16,3 +16,6 @@
 
 # Code editor specific directories
 .vscode
+
+# gosec
+gosec-report.sarif

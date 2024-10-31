@@ -19,4 +19,12 @@ test:
 	@go test -cover ./...
 
 .PHONY: verify
-verify: check test
+verify: check test sast
+
+.PHONY: sast
+sast:
+	@./hack/sast.sh
+
+.PHONY: sast-report
+sast-report:
+	@./hack/sast.sh --gosec-report true

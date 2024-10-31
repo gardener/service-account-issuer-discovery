@@ -17,6 +17,8 @@ fi
 
 cd "${SOURCE_PATH}"
 
+go install github.com/securego/gosec/v2/cmd/gosec@v2.21.4
+
 make verify
 
 curl -s "https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3" | bash -s -- --version 'v3.5.4'

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 service-account-issuer-discovery:
-  templates: 
+  templates:
     helmcharts:
     - &service-account-issuer-discovery
       name: service-account-issuer-discovery
@@ -15,6 +15,13 @@ service-account-issuer-discovery:
       - ref: ocm-resource:service-account-issuer-discovery.tag
         attribute: image.tag
   base_definition:
+    repo:
+      source_labels:
+      - name: cloud.gardener.cnudie/dso/scanning-hints/source_analysis/v1
+        value:
+          policy: skip
+          comment: |
+            We use gosec for sast scanning, see attached log.
     traits:
       version:
         preprocess: inject-commit-hash
@@ -58,6 +65,16 @@ service-account-issuer-discovery:
           preprocess: finalize
         release:
           nextversion: bump_minor
+          assets:
+          - type: build-step-log
+            step_name: verify
+            purposes:
+            - lint
+            - sast
+            - gosec
+            comment: |
+              We use gosec (linter) for SAST scans, see: https://github.com/securego/gosec.
+              Enabled by https://github.com/gardener/service-account-issuer-discovery/pull/42
         component_descriptor:
           ocm_repository: europe-docker.pkg.dev/gardener-project/releases
         publish:
