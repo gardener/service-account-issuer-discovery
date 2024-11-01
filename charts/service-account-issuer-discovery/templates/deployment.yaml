@@ -45,6 +45,13 @@ spec:
                 - {{ .Release.Name }}
             topologyKey: "kubernetes.io/hostname"
       {{- end }}
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+      {{- end }}
+      imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.topologySpreadConstraints | nindent 8 }}
       serviceAccountName: {{ include "name" . }}
       automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
       containers:
