@@ -98,7 +98,9 @@ func (s *handlersSet) Config(w http.ResponseWriter, r *http.Request) {
 	cached := s.cacher.Get(configKey)
 	if cached != nil {
 		w.Header().Add("Content-Type", "application/json")
-		w.Write(cached)
+		if _, err := w.Write(cached); err != nil {
+			s.logger.Println(err)
+		}
 		return
 	}
 
@@ -139,7 +141,9 @@ func (s *handlersSet) Config(w http.ResponseWriter, r *http.Request) {
 	bytes := v.([]byte)
 	s.cacher.Update(configKey, bytes)
 	w.Header().Add("Content-Type", "application/json")
-	w.Write(bytes)
+	if _, err := w.Write(bytes); err != nil {
+		s.logger.Println(err)
+	}
 }
 
 func (s *handlersSet) JWKS(w http.ResponseWriter, r *http.Request) {
@@ -151,7 +155,9 @@ func (s *handlersSet) JWKS(w http.ResponseWriter, r *http.Request) {
 	cached := s.cacher.Get(jwksKey)
 	if cached != nil {
 		w.Header().Add("Content-Type", "application/json")
-		w.Write(cached)
+		if _, err := w.Write(cached); err != nil {
+			s.logger.Println(err)
+		}
 		return
 	}
 
@@ -184,7 +190,9 @@ func (s *handlersSet) JWKS(w http.ResponseWriter, r *http.Request) {
 	jwksBytes := v.([]byte)
 	s.cacher.Update(jwksKey, jwksBytes)
 	w.Header().Add("Content-Type", "application/json")
-	w.Write(jwksBytes)
+	if _, err := w.Write(jwksBytes); err != nil {
+		s.logger.Println(err)
+	}
 }
 
 func (s *handlersSet) Healthz(w http.ResponseWriter, r *http.Request) {
@@ -193,7 +201,9 @@ func (s *handlersSet) Healthz(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("ok"))
+	if _, err := w.Write([]byte("ok")); err != nil {
+		s.logger.Println(err)
+	}
 }
 
 type oidConfig struct {
