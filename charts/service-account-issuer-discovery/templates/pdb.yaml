@@ -8,10 +8,10 @@ kind: PodDisruptionBudget
 metadata:
     name: {{ include "name" . }}
     namespace: {{ .Release.Namespace }}
-labels:
-    app.kubernetes.io/name: {{ include "name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    labels:
+        app.kubernetes.io/name: {{ include "name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
     maxUnavailable: 1
 {{- if semverCompare ">= 1.26-0" .Capabilities.KubeVersion.Version }}
