@@ -18,14 +18,7 @@ go run ./cmd/service-account-issuer-discovery/main.go --kubeconfig=<path-to-my-k
 
 Retrieve the `well-known` document by querying `/.well-known/openid-configuration`.
 
-### Helm Charts
+### Container Images and Helm Charts
 
-service-account-issuer-discovery
-
-* europe-docker.pkg.dev/gardener-project/releases/charts/gardener/service-account-issuer-discovery:VERSION
-
-### Container Images
-
-service-account-issuer-discovery
-
-* europe-docker.pkg.dev/gardener-project/releases/gardener/service-account-issuer-discovery:VERSION
+Details of the available container images and Helm charts can be found under
+[Releases](https://github.com/gardener/service-account-issuer-discovery/releases/).
