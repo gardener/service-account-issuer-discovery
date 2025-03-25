@@ -8,12 +8,17 @@ Work in progress... Partial documentation ahead.
 ### Quick start
 
 To run the server with minimal configuration export the `KUBECONFIG` environment variable and run:
-``` 
+```
 go run ./cmd/service-account-issuer-discovery/main.go --hostname=<issuer-of-cluster>
 ```
 Or pass the `kubeconfig` as a flag:
-``` 
+```
 go run ./cmd/service-account-issuer-discovery/main.go --kubeconfig=<path-to-my-kubeconfig> --hostname=<issuer-of-cluster>
 ```
 
 Retrieve the `well-known` document by querying `/.well-known/openid-configuration`.
+
+### Container Images and Helm Charts
+
+Details of the available container images and Helm charts can be found under
+[Releases](https://github.com/gardener/service-account-issuer-discovery/releases/).
