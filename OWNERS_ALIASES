@@ -1,0 +1,11 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+
+aliases:
+  service-account-issuer-discovery-reviewers:
+  - dimityrmirchev
+  - theoddora
+  - vpnachev
+  service-account-issuer-discovery-approvers:
+  - dimityrmirchev
+  - theoddora
+  - vpnachev
