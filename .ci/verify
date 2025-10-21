@@ -9,17 +9,13 @@ set -e
 # For the check step concourse will set the following environment variables:
 # SOURCE_PATH - path to component repository root directory.
 
-if [[ -z "${SOURCE_PATH}" ]]; then
-  export SOURCE_PATH="$(readlink -f "$(dirname ${0})/..")"
-else
-  export SOURCE_PATH="$(readlink -f ${SOURCE_PATH})"
-fi
+export SOURCE_PATH="$(readlink -f "${BASH_SOURCE[0]}/..")"
 
 cd "${SOURCE_PATH}"
 
 go install github.com/securego/gosec/v2/cmd/gosec@v2.22.8
 
-make verify
+make verify sast-report
 
 curl -s "https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3" | bash -s -- --version 'v3.5.4'
 
