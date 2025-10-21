@@ -6,11 +6,11 @@ SPDX-PackageDownloadLocation = "https://github.com/gardener/service-account-issu
 [[annotations]]
 path = [".ci/**", ".github/**", ".gitignore", "charts/service-account-issuer-discovery/.helmignore", "charts/service-account-issuer-discovery/templates/_helpers.tpl", "CODEOWNERS", "OWNERS", "OWNERS_ALIASES", "go.mod", "go.sum", "VERSION"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2022 SAP SE or an SAP affiliate company and Gardener contributors"
+SPDX-FileCopyrightText = "2022-2025 SAP SE or an SAP affiliate company and Gardener contributors"
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
 path = ["CONTRIBUTING.md", "README.md"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2022 SAP SE or an SAP affiliate company and Gardener contributors"
+SPDX-FileCopyrightText = "2022-2025 SAP SE or an SAP affiliate company and Gardener contributors"
 SPDX-License-Identifier = "CC-BY-4.0"
