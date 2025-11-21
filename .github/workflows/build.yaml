@@ -24,6 +24,7 @@ jobs:
     name: Build OCI-Images
     needs:
       - prepare
+      - verify
     permissions:
       contents: read
       packages: write
@@ -80,7 +81,7 @@ jobs:
     steps:
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: '1.25'
       - uses: gardener/cc-utils/.github/actions/trusted-checkout@master
       - name: run-verify
         run: |
@@ -109,4 +110,4 @@ jobs:
                 value: |
                   we use gosec (linter) for SAST scans
                   see: https://github.com/securego/gosec
-                  Enabled by https://github.com/gardener/gardener-discovery-server/pull/70
+                  Enabled by https://github.com/gardener/service-account-issuer-discovery/pull/42
