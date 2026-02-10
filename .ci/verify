@@ -13,7 +13,7 @@ export SOURCE_PATH="$(readlink -f "${BASH_SOURCE[0]}/..")"
 
 cd "${SOURCE_PATH}"
 
-go install github.com/securego/gosec/v2/cmd/gosec@v2.22.8
+go install github.com/securego/gosec/v2/cmd/gosec@v2.22.11
 
 make verify sast-report
 

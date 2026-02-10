@@ -54,10 +54,18 @@ spec:
         {{- toYaml .Values.topologySpreadConstraints | nindent 8 }}
       serviceAccountName: {{ include "name" . }}
       automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
+      {{- if .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ include "name" . }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- if .Values.containerSecurityContext }}
+        securityContext:
+          {{- toYaml .Values.containerSecurityContext | nindent 10 }}
+        {{- end }}
         args:
         {{- if or ( or .Values.gardenerManagedDNS.enabled ( eq .Values.serviceType "LoadBalancer" ) ) .Values.tlsConfig.enabled }}
         - --cert-file=/var/run/issuer-discovery/tls/tls.crt
