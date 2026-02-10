@@ -2,8 +2,6 @@ module github.com/gardener/service-account-issuer-discovery
 
 go 1.25.0
 
-toolchain go1.25.7
-
 require (
 	golang.org/x/sync v0.19.0
 	k8s.io/client-go v0.35.0
