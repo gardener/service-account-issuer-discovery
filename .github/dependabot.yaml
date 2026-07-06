@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 5
+    labels:
+    - kind/enhancement
+    allow:
+    - dependency-name: "k8s.io/.*"
+    - dependency-name: "sigs.k8s.io/.*"
+    - dependency-name: "golang.org/x/.*"
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: daily
+    labels:
+    - kind/enhancement
