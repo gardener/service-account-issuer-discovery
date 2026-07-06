@@ -6,7 +6,7 @@ updates:
       interval: daily
     open-pull-requests-limit: 5
     labels:
-        - kind/enhancement
+    - kind/enhancement
     allow:
     - dependency-name: "k8s.io/.*"
     - dependency-name: "sigs.k8s.io/.*"
