@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2022 SAP SE or an SAP affiliate company and Gardener contributors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+{{- if and .Values.gardenerManagedCertificate.enabled .Values.gardenerManagedDNS.enabled }}
+{{- fail "gardenerManagedDNS.enabled and gardenerManagedCertificate.enabled are mutually exclusive: gardenerManagedDNS already requests a certificate. Enable only one." }}
+{{- end }}
+{{- if .Values.gardenerManagedCertificate.enabled }}
+apiVersion: cert.gardener.cloud/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ include "name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  commonName: {{ required ".Values.hostname is required" .Values.hostname }}
+  {{- if .Values.gardenerManagedCertificate.issuerName }}
+  issuerRef:
+    name: {{ .Values.gardenerManagedCertificate.issuerName }}
+  {{- end }}
+  secretRef:
+    name: {{ include "name" . }}-tls
+    namespace: {{ .Release.Namespace }}
+{{- end }}

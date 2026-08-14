@@ -32,7 +32,12 @@ hostname: ""
 gardenerManagedDNS:
   enabled: false
 
-# If gardenerManagedDNS.enabled is set to true then tlsConfig is ignored.
+# Requests a Gardener-managed certificate without DNS. Mutually exclusive with gardenerManagedDNS.
+gardenerManagedCertificate:
+  enabled: false
+  issuerName: ""
+
+# If gardenerManagedDNS.enabled or gardenerManagedCertificate.enabled is set to true then tlsConfig is ignored.
 tlsConfig:
   enabled: false
   crt: |
