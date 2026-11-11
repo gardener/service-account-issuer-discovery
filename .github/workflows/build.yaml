@@ -36,6 +36,15 @@ jobs:
           - name: service-account-issuer-discovery
             target:
             oci-repository: gardener/service-account-issuer-discovery
+            tag: '{version}'
+            extra-tags: latest
+            build-args:
+          - name: service-account-issuer-discovery-fips
+            target:
+            oci-repository: gardener/service-account-issuer-discovery
+            tag: '{version}-fips'
+            extra-tags: latest-fips
+            build-args: GOFIPS140=certified
     with:
       name: ${{ matrix.args.name }}
       version: ${{ needs.prepare.outputs.version }}
@@ -43,7 +52,9 @@ jobs:
       oci-registry: ${{ needs.prepare.outputs.oci-registry }}
       oci-repository: ${{ matrix.args.oci-repository }}
       oci-platforms: linux/amd64,linux/arm64
-      extra-tags: latest
+      tag: ${{ matrix.args.tag }}
+      extra-tags: ${{ matrix.args.extra-tags }}
+      build-args: ${{ matrix.args.build-args }}
 
   helmcharts:
     name: Build Helmcharts

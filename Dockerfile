@@ -10,8 +10,11 @@ RUN go mod download
 
 # Build
 ARG TARGETARCH
+# GOFIPS140 selects the Go Cryptographic Module to build against. Defaults to `off`
+# (standard image). Set to `certified` to build a FIPS 140-3 variant.
+ARG GOFIPS140=off
 WORKDIR /workspace/cmd/service-account-issuer-discovery
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARCH GO111MODULE=on go build -a -ldflags="$(/workspace/hack/get-build.sh)" -o /workspace/service-account-issuer-discovery
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARCH GO111MODULE=on GOFIPS140=$GOFIPS140 go build -a -ldflags="$(/workspace/hack/get-build.sh)" -o /workspace/service-account-issuer-discovery
 
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
