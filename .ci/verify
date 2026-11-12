@@ -9,7 +9,7 @@ set -e
 # For the check step concourse will set the following environment variables:
 # SOURCE_PATH - path to component repository root directory.
 
-export SOURCE_PATH="$(readlink -f "${BASH_SOURCE[0]}/..")"
+export SOURCE_PATH="$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")"
 
 cd "${SOURCE_PATH}"
 
